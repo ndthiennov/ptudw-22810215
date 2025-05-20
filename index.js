@@ -20,6 +20,9 @@ const redisClient = createClient({
 });
 redisClient.connect().catch(console.error);
 
+const passport = require('./controllers/passport');
+const flash = require('connect-flash');
+
 // Cau hinh public static folder
 app.use(express.static(__dirname + '/public'));
 
@@ -60,11 +63,20 @@ app.use(session({
     }
 }));
 
+// Cau hinh su dung passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Cau hinh su dung connect-flash
+app.use(flash());
+
 // Middleware khoi tao gio hang
 app.use((req, res, next) => {
     let Cart = require('./controllers/cart');
     req.session.cart = new Cart(req.session.cart ? req.session.cart : {});
     res.locals.quantity = req.session.cart.quantity;
+
+    res.locals.isLoggedIn = req.isAuthenticated();
 
     next();
 });
@@ -72,6 +84,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', require('./routes/indexRouter'));
 app.use('/products', require('./routes/productsRouter'));
+app.use('/users', require('./routes/authRouter'));
 app.use('/users', require('./routes/usersRouter'));
 
 app.use((req, res, next) => {
