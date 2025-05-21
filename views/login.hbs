@@ -28,11 +28,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label>E-mail / Username</label>
-                                <input class="form-control" type="email" placeholder="First Name" name="email">
+                                <input class="form-control" type="email" placeholder="Email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
                             </div>
                             <div class="col-md-6">
                                 <label>Password</label>
-                                <input class="form-control" type="password" placeholder="Last Name" name="password">
+                                <input class="form-control" type="password" placeholder="Password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                             </div>
                             <div class="col-md-12">
                                 <div class="custom-control custom-checkbox">
@@ -45,7 +45,7 @@
                             </div>
                             {{#if loginMessage}}
                             <div class="col-md-12">
-                                <div class="p-3 mt-3 alert alert-warning">{{loginMessage}}</div>
+                                <div class="p-3 mt-3 alert alert-warning">{{{loginMessage}}}</div>
                             </div>
                             {{/if}}
                         </div>
