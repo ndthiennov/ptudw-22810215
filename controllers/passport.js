@@ -34,18 +34,21 @@ passport.use('local-login', new LocalStrategy({
         email = email.toLowerCase(); // Chuyen dia chi email sang ky tu thuong
     }
     try {
+
         if (!req.user) { // Neu user chua dang nhap
             let user = await models.User.findOne({ where: { email } });
             if (!user) {
                 return done(null, false, req.flash('loginMessage', 'Email does not exist!'));
             }
-            if (!bcrypt, bcrypt.compareSync(password, user.password)) { // Neu mat khau khong dung
+            if (!bcrypt.compareSync(password, user.password)) { // Neu mat khau khong dung
                 return done(null, false, req.flash('loginMessage', 'Invalid password!'));
             }
+            return done(null, user);
         }
 
         // Bo qua dang nhap
-        return done(null, user);
+        console.log(req.user);
+        return done(null, req.user);
     }
     catch (error) {
         done(error);

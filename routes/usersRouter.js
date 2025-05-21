@@ -29,4 +29,8 @@ router.post('/placeorders',
     },
     controller.placeorders);
 
+router.get('/my-account', (req, res) => {
+    res.render('my-account');
+})
+
 module.exports = router;
